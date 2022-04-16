@@ -87,41 +87,41 @@ namespace DynamiteDexter
 
             //Draw Pause Menu if the game is paused.
 
+            const int PAUSE_LEFT = 4;
+            const int PAUSE_RIGHT = 26;
+            const int PAUSE_TOP = 10;
+            const int PAUSE_BOTTOM = 19;
+
             if (gameMode == GameModes.Pause)
             {
-                const int LEFT = 4;
-                const int RIGHT = 26;
-                const int TOP = 10;
-                const int BOTTOM = 19;
-
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate);
-                spriteBatch.Draw(Images.BORDER_TOP_LEFT, new Vector2(LEFT * SUB_TILE_SIZE, TOP * SUB_TILE_SIZE), Color.White);
-                spriteBatch.Draw(Images.BORDER_TOP_RIGHT, new Vector2(RIGHT * SUB_TILE_SIZE, TOP * SUB_TILE_SIZE), Color.White);
-                spriteBatch.Draw(Images.BORDER_BOTTOM_LEFT, new Vector2(LEFT * SUB_TILE_SIZE, BOTTOM * SUB_TILE_SIZE), Color.White);
-                spriteBatch.Draw(Images.BORDER_BOTTOM_RIGHT, new Vector2(RIGHT * SUB_TILE_SIZE, BOTTOM * SUB_TILE_SIZE), Color.White);
-                for (int i = LEFT + 1; i < RIGHT; i++)
+                spriteBatch.Draw(Images.BORDER_TOP_LEFT, new Vector2(PAUSE_LEFT * SUB_TILE_SIZE, PAUSE_TOP * SUB_TILE_SIZE), Color.White);
+                spriteBatch.Draw(Images.BORDER_TOP_RIGHT, new Vector2(PAUSE_RIGHT * SUB_TILE_SIZE, PAUSE_TOP * SUB_TILE_SIZE), Color.White);
+                spriteBatch.Draw(Images.BORDER_BOTTOM_LEFT, new Vector2(PAUSE_LEFT * SUB_TILE_SIZE, PAUSE_BOTTOM * SUB_TILE_SIZE), Color.White);
+                spriteBatch.Draw(Images.BORDER_BOTTOM_RIGHT, new Vector2(PAUSE_RIGHT * SUB_TILE_SIZE, PAUSE_BOTTOM * SUB_TILE_SIZE), Color.White);
+                for (int i = PAUSE_LEFT + 1; i < PAUSE_RIGHT; i++)
                 {
-                    spriteBatch.Draw(Images.BORDER_TOP, new Vector2(i * SUB_TILE_SIZE, TOP * SUB_TILE_SIZE), Color.White);
-                    spriteBatch.Draw(Images.BORDER_BOTTOM, new Vector2(i * SUB_TILE_SIZE, BOTTOM * SUB_TILE_SIZE), Color.White);
+                    spriteBatch.Draw(Images.BORDER_TOP, new Vector2(i * SUB_TILE_SIZE, PAUSE_TOP * SUB_TILE_SIZE), Color.White);
+                    spriteBatch.Draw(Images.BORDER_BOTTOM, new Vector2(i * SUB_TILE_SIZE, PAUSE_BOTTOM * SUB_TILE_SIZE), Color.White);
                 }
-                for (int i = TOP + 1; i < BOTTOM; i++)
+                for (int i = PAUSE_TOP + 1; i < PAUSE_BOTTOM; i++)
                 {
-                    spriteBatch.Draw(Images.BORDER_LEFT, new Vector2(LEFT * SUB_TILE_SIZE, i * SUB_TILE_SIZE), Color.White);
-                    spriteBatch.Draw(Images.BORDER_RIGHT, new Vector2(RIGHT * SUB_TILE_SIZE, i * SUB_TILE_SIZE), Color.White);
+                    spriteBatch.Draw(Images.BORDER_LEFT, new Vector2(PAUSE_LEFT * SUB_TILE_SIZE, i * SUB_TILE_SIZE), Color.White);
+                    spriteBatch.Draw(Images.BORDER_RIGHT, new Vector2(PAUSE_RIGHT * SUB_TILE_SIZE, i * SUB_TILE_SIZE), Color.White);
                 }
-                for (int i = LEFT + 1; i < RIGHT; i++)
-                    for (int j = TOP + 1; j < BOTTOM; j++)
+                for (int i = PAUSE_LEFT + 1; i < PAUSE_RIGHT; i++)
+                    for (int j = PAUSE_TOP + 1; j < PAUSE_BOTTOM; j++)
                         spriteBatch.Draw(Images.Characters.SPACE, new Vector2(i * SUB_TILE_SIZE, j * SUB_TILE_SIZE), Color.White);
                 for (int i = 0; i < MenuManager.PauseMenu.CurrentSubMenuLength; i++)
                     spriteBatch.Draw(
                         MenuManager.TheTextfields[i].Image,
-                        new Vector2((LEFT + 4) * SUB_TILE_SIZE , (TOP + 2 + i) * SUB_TILE_SIZE),
+                        new Vector2((PAUSE_LEFT + 4) * SUB_TILE_SIZE , (PAUSE_TOP + 2 + i) * SUB_TILE_SIZE),
                         Color.White);
                 spriteBatch.Draw(
                     Images.ICON_CURSOR,
                     new Vector2(
-                        (LEFT + 2) * SUB_TILE_SIZE,
-                        (TOP + 2 + MenuManager.PauseMenu.CurrentSubMenu.SelectionIndex) * SUB_TILE_SIZE),
+                        (PAUSE_LEFT + 2) * SUB_TILE_SIZE,
+                        (PAUSE_TOP + 2 + MenuManager.PauseMenu.CurrentSubMenu.SelectionIndex) * SUB_TILE_SIZE),
                     Color.White);
                 spriteBatch.End();
             }
@@ -197,10 +197,10 @@ namespace DynamiteDexter
             {
                 float rectLeft = player.Center.X - (Images.SPOTLIGHT.Width / 2);
                 float rectRight = player.Center.Y - (Images.SPOTLIGHT.Height / 2);
-                DARKEN.Parameters["rectLeft"].SetValue(rectLeft);
-                DARKEN.Parameters["rectTop"].SetValue(rectRight);
-                DARKEN.Parameters["rectRight"].SetValue(rectLeft + Images.SPOTLIGHT.Width);
-                DARKEN.Parameters["rectBottom"].SetValue(rectRight + Images.SPOTLIGHT.Height);
+                DARKEN.Parameters["rectLeft"].SetValue(gameMode == GameModes.Pause ? PAUSE_LEFT * SUB_TILE_SIZE : rectLeft);
+                DARKEN.Parameters["rectTop"].SetValue(gameMode == GameModes.Pause ? PAUSE_TOP * SUB_TILE_SIZE : rectRight);
+                DARKEN.Parameters["rectRight"].SetValue(gameMode == GameModes.Pause ? (PAUSE_RIGHT + 1) * SUB_TILE_SIZE : rectLeft + Images.SPOTLIGHT.Width);
+                DARKEN.Parameters["rectBottom"].SetValue(gameMode == GameModes.Pause ? (PAUSE_BOTTOM + 1) * SUB_TILE_SIZE : rectRight + Images.SPOTLIGHT.Height);
                 DARKEN.Parameters["fieldWidth"].SetValue((float)playfield.X);
                 DARKEN.Parameters["fieldHeight"].SetValue((float)playfield.Y);
                 DARKEN.CurrentTechnique.Passes[0].Apply();

@@ -79,10 +79,10 @@ namespace DynamiteDexter
             _tail = new SnakeTail(this);
 
             segment = new SnakeSegment[LENGTH];
-            segment[0] = new SnakeSegment(2, 2, null);
-            segment[1] = new SnakeSegment(3, 2, segment[0]);
-            segment[2] = new SnakeSegment(4, 2, segment[1]);
-            segment[3] = new SnakeSegment(5, 2, segment[2]);
+            segment[0] = new SnakeSegment(3, 2, null);
+            segment[1] = new SnakeSegment(4, 2, segment[0]);
+            segment[2] = new SnakeSegment(5, 2, segment[1]);
+            segment[3] = new SnakeSegment(6, 2, segment[2]);
             segment[4] = new SnakeSegment(7, 2, segment[3]);
             segment[5] = new SnakeSegment(8, 2, segment[4]);
             segment[6] = new SnakeSegment(9, 2, segment[5]);
@@ -95,6 +95,7 @@ namespace DynamiteDexter
             segmentTileSelection = 0;
             vitality = INITIAL_VITALITY;
             flashCount = 0;
+            render = false; //To hide scattering of segments about the screen after initialization.
         }
 
         public void AcquireSet(List<IGameObject> spriteSet) { this.spriteSet = spriteSet; }
@@ -223,6 +224,8 @@ namespace DynamiteDexter
 
         protected override void Animate()
         {
+            render = true;
+
             switch (direction)
             {
                 case Directions.Left: tileSelection.X = 0;
@@ -338,6 +341,7 @@ namespace DynamiteDexter
     public class SnakeSegment : TileSheet
     {
         private bool reverse;
+        private uint? invisibilityTimer; 
         private SnakeSegment linkTowardTail;
         private SnakeSegment linkTowardHead;
 
@@ -359,6 +363,9 @@ namespace DynamiteDexter
 
             if (linkTowardHead != null)
                 this.linkTowardHead.SetLinkTowardTail(this);
+
+            render = false; //To hide scattering of segments about the screen after initialization.
+            invisibilityTimer = 1;
         }
 
         public void SetLinkTowardTail(SnakeSegment linkTowardTail) { this.linkTowardTail = linkTowardTail; }
@@ -389,6 +396,16 @@ namespace DynamiteDexter
         protected override void Animate()
         {
             reverse = false;
+
+            if (invisibilityTimer != null)
+            {
+                if (invisibilityTimer == 1)
+                {
+                    invisibilityTimer = 0;
+                    render = true;
+                }
+                else invisibilityTimer = null;   
+            }
 
             //Set vertical frame selection... (direction) 
 
@@ -489,7 +506,7 @@ namespace DynamiteDexter
                   new SpriteInfo(Images.SNAKE_TAIL, 0, 0, (int)Game1.Layers.Actor),
                   new CollisionInfo(_snakeTailHitbox, null),
                   new AnimationInfo(4, 1, 0))
-        { Parent = parent; }
+        { Parent = parent; Render = false; }
 
         protected override void Animate()
         {

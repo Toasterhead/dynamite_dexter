@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DynamiteDexter
 {
@@ -176,69 +177,52 @@ namespace DynamiteDexter
                     new AnimationInfo(2, 1, 10)));
             }
         }
-        #region Read From File
-        /*public static void ReadFromFile()
+        
+        public static void LoadFromFileData(List<string> highScoreData)
         {
             for (int i = 0; i < topScoreDollars.Length; i++)
                 topScoreDollars[i] = new FieldEntry("[blank]", 0, false);
             for (int i = 0; i < topScoreSpeedrun.Length; i++)
                 topScoreSpeedrun[i] = new FieldEntry("[blank]", 0, false);
+ 
+            bool end = false;
+            bool enteringDollars = true;
+            int dollarScoreCount = 0;
+            int speedrunScoreCount = 0;
 
-            StreamReader sr;
-
-            try
+            foreach (string line in highScoreData)
             {
-                using (sr = new StreamReader("high_score.txt"))
+                if (end) break;
+
+                bool isValidLine = line != null && line != "";
+
+                if (isValidLine && line[0] == markerCommand)
                 {
-                    string line;
-                    bool end = false;
-                    bool enteringDollars = true;
-                    int dollarScoreCount = 0;
-                    int speedrunScoreCount = 0;
+                    string[] terms = line.Split(delimiters);
 
-                    while (!end)
+                    if (terms.Length == 2 && terms[1] == "dollars")
+                        enteringDollars = true;
+                    else if (terms.Length == 2 && terms[1] == "speedrun")
+                        enteringDollars = false;
+                    else if (terms.Length == 2 && terms[1] == "end")
+                        end = true;
+                    else if (terms.Length == 4)
                     {
-                        line = sr.ReadLine();
-
-                        bool isValidLine = line != null && line != "";
-
-                        if (isValidLine && line[0] == markerCommand)
+                        if (enteringDollars && dollarScoreCount < topScoreDollars.Length)
                         {
-                            string[] terms = line.Split(delimiters);
-
-                            if (terms.Length == 2 && terms[1] == "dollars")
-                                enteringDollars = true;
-                            else if (terms.Length == 2 && terms[1] == "speedrun")
-                                enteringDollars = false;
-                            else if (terms.Length == 2 && terms[1] == "end")
-                                end = true;
-                            else if (terms.Length == 4)
-                            {
-                                if (enteringDollars && dollarScoreCount < topScoreDollars.Length)
-                                {
-                                    topScoreDollars[dollarScoreCount] = new FieldEntry(terms[1], Convert.ToInt32(terms[2]), Convert.ToBoolean(Convert.ToInt32(terms[3])));
-                                    dollarScoreCount++;
-                                }
-                                else if (!enteringDollars && speedrunScoreCount < topScoreSpeedrun.Length)
-                                {
-                                    topScoreSpeedrun[speedrunScoreCount] = new FieldEntry(terms[1], Convert.ToInt32(terms[2]), false);
-                                    speedrunScoreCount++;
-                                }
-                            }
+                            topScoreDollars[dollarScoreCount] = new FieldEntry(terms[1], Convert.ToInt32(terms[2]), Convert.ToBoolean(Convert.ToInt32(terms[3])));
+                            dollarScoreCount++;
+                        }
+                        else if (!enteringDollars && speedrunScoreCount < topScoreSpeedrun.Length)
+                        {
+                            topScoreSpeedrun[speedrunScoreCount] = new FieldEntry(terms[1], Convert.ToInt32(terms[2]), false);
+                            speedrunScoreCount++;
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error - Failed to read the high score list.");
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                System.Diagnostics.Debug.WriteLine(e.InnerException);
-                System.Diagnostics.Debug.WriteLine("The base directory is: " + AppDomain.CurrentDomain.BaseDirectory);
-            }
-        }*/
-        #endregion
-
+            }    
+        }
+        
         public static void WriteToMenu()
         {
             List<DataString> dataStringsOne = new List<DataString>();

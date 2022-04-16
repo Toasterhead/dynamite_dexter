@@ -4,12 +4,13 @@ namespace DynamiteDexter
 {
     public class Impaler : SpriteSheet, IHostile
     {
+        private const int SPIKE_LENGTH = 2 * Game1.TILE_SIZE;
         private const int NUM_QUARTERS = 4;
         private const uint NUM_POSITIONS = 9;
 
         private static readonly Rectangle[] _impalerHitBox =
         {
-            new Rectangle(0, 0, 0, 0),
+            new Rectangle(6, 8, 4, 0),
             new Rectangle(6, 8, 4, 8),
             new Rectangle(6, 8, 4, 12),
             new Rectangle(6, 8, 4, 16),
@@ -35,11 +36,22 @@ namespace DynamiteDexter
         {
             get
             {
-                if (outwardPosition >= NUM_POSITIONS)
-                    
-                    return GetHitBox(0);
+                Rectangle hitBoxAssault;
 
-                Rectangle hitBoxAssault = GetHitBox((int)outwardPosition, absolute: true);
+                if (outwardPosition >= NUM_POSITIONS)
+                {
+                    hitBoxAssault = GetHitBox(0);
+
+                    if (_upward)
+                        hitBoxAssault = new Rectangle(
+                            hitBoxAssault.X, 
+                            hitBoxAssault.Y + SPIKE_LENGTH, 
+                            hitBoxAssault.Width, 
+                            hitBoxAssault.Height);
+
+                    return hitBoxAssault;
+                }
+                else hitBoxAssault = GetHitBox((int)outwardPosition, absolute: true);
 
                 if (_upward)
                 {
@@ -58,7 +70,7 @@ namespace DynamiteDexter
                   new SpriteInfo(
                       Images.IMPALER, 
                       source.X, 
-                      upward ? source.Y - (2 * Game1.TILE_SIZE) : source.Y, 
+                      upward ? source.Y - SPIKE_LENGTH : source.Y, 
                       (int)Game1.Layers.Actor),
                   new CollisionInfo(_impalerHitBox, null),
                   new AnimationInfo(9, 2, 0))

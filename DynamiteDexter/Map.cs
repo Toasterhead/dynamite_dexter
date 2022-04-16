@@ -163,7 +163,11 @@ namespace DynamiteDexter
                             spriteSet,
                             i is Snake ? (i as Snake).Segment[0] : null));
 
-            try { WaterTileReplacement(spriteSet); }
+            try
+            {
+                AssociateSignPost(spriteSet);
+                WaterTileReplacement(spriteSet);
+            }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
@@ -249,65 +253,35 @@ namespace DynamiteDexter
             return alteredSet;
         }
 
-        #region Load Boss Locations
-        /*public static BossRoom.BossTypes[,] LoadBossLocations()
+        public static BossRoom.BossTypes[,] LoadBossLocations(List<string> bossLocationFileData)
         {
             BossRoom.BossTypes[,] bossLocation = new BossRoom.BossTypes[Game1.WORLD_SIZE_X, Game1.WORLD_SIZE_Y];
 
-            try
+            foreach (string line in bossLocationFileData)
             {
-                StreamReader sr = new StreamReader("map\\boss_location.txt");
-
-                while (!sr.EndOfStream)
-                {
-                    string[] terms = sr.ReadLine().Split(delimiters);
-                    bossLocation[
-                        Convert.ToInt32(terms[1]), 
-                        Convert.ToInt32(terms[2])] = (BossRoom.BossTypes)Convert.ToInt32(terms[0]);
-                }
-
-                sr.Close();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(e.InnerException);
+                string[] terms = line.Split(delimiters);
+                bossLocation[
+                    Convert.ToInt32(terms[1]), 
+                    Convert.ToInt32(terms[2])] = (BossRoom.BossTypes)Convert.ToInt32(terms[0]);
             }
 
             return bossLocation;
         }
-        */
-        #endregion
 
-        #region Load Denizen Locations
-        /*public static HouseRoom.DenizenTypes[,] LoadDenizenLocations()
+        public static HouseRoom.DenizenTypes[,] LoadDenizenLocations(List<string> denizenLocationFileData)
         {
             HouseRoom.DenizenTypes[,] denizenLocation = new HouseRoom.DenizenTypes[Game1.WORLD_SIZE_X, Game1.WORLD_SIZE_Y];
 
-            try
+            foreach (string line in denizenLocationFileData)
             {
-                StreamReader sr = new StreamReader("map\\denizen_location.txt");
-
-                while (!sr.EndOfStream)
-                {
-                    string[] terms = sr.ReadLine().Split(delimiters);
-                    denizenLocation[
-                        Convert.ToInt32(terms[1]), 
-                        Convert.ToInt32(terms[2])] = (HouseRoom.DenizenTypes)Convert.ToInt32(terms[0]);
-                }
-
-                sr.Close();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(e.InnerException);
+                string[] terms = line.Split(delimiters);
+                denizenLocation[
+                    Convert.ToInt32(terms[1]), 
+                    Convert.ToInt32(terms[2])] = (HouseRoom.DenizenTypes)Convert.ToInt32(terms[0]);
             }
 
             return denizenLocation;
         }
-        */
-        #endregion
 
         public static void ResetFlagNumber() { flagNumber = 0; }
 
@@ -698,6 +672,37 @@ namespace DynamiteDexter
                 image = Images.DOOR_CEMETARY_TOP;
 
             return new Door(image, position.X, position.Y);
+        }
+
+        private static void AssociateSignPost(List<IGameObject> spriteSet)
+        {
+            Stack<Point> positions = new Stack<Point>();
+            Stack<IGameObject> toRemove = new Stack<IGameObject>();
+
+            foreach (IGameObject i in spriteSet)
+            {
+                if (i is Terrain && (i as Terrain).Image == Images.SIGN_POST)
+
+                    foreach (IGameObject j in spriteSet)
+                    {
+                        Rectangle rect = new Rectangle(i.X, i.Y - Game1.TILE_SIZE, Game1.TILE_SIZE, Game1.TILE_SIZE);
+                        
+                        if (j is Plaque && j.Rect.Intersects(rect))
+                        {
+                            Terrain iTerrain = i as Terrain;
+                            positions.Push(new Point(iTerrain.GridX, iTerrain.GridY));
+                            toRemove.Push(iTerrain);
+                        }
+                    }
+
+                while (toRemove.Count != 0)
+                    spriteSet.Remove(toRemove.Pop());
+                while (positions.Count != 0)
+                {
+                    Point position = positions.Pop();
+                    spriteSet.Add(new Plaque(Images.SIGN_POST, position.X, position.Y));
+                }
+            }
         }
 
         private static void WaterTileReplacement(List<IGameObject> spriteSet)

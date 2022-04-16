@@ -26,8 +26,8 @@ namespace DynamiteDexter
             Map.ResetFlagNumber();
             BossRoom.ResetNumDefeated();
 
-            //BossRoom.MarkLocation(Map.LoadBossLocations());
-            //HouseRoom.MarkLocation(Map.LoadDenizenLocations());
+            BossRoom.MarkLocation(Map.LoadBossLocations(FileInOut.bossLocationFileData));
+            HouseRoom.MarkLocation(Map.LoadDenizenLocations(FileInOut.denizenLocationFileData));
 
             worldSet = new Room[WORLD_SIZE_X, WORLD_SIZE_Y];
             alteredSet = new List<Terrain>[WORLD_SIZE_X, WORLD_SIZE_Y];
@@ -59,7 +59,7 @@ namespace DynamiteDexter
             MediaPlayer.Stop();
             MediaPlayer.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
             currentSound.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
-
+            
             mapLoadIndex = new Point(0, 0);
         }
     }

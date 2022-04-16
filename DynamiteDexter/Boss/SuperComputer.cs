@@ -126,6 +126,8 @@ namespace DynamiteDexter
     {
         private enum Directions { Left, Up, Right, Down, EnumSize }
 
+        private const int MAINFRAME_BOUNDARY_X = 4;
+        private const int MAINFRAME_BOUNDARY_Y = 7;
         private const int PROJECTILE_SPEED = 5;
         private const uint FIRE_INTERVAL = 5;
         private const uint SEQUENCE_DURATION = 180;
@@ -205,11 +207,14 @@ namespace DynamiteDexter
             {
                 intersectionFound = false;
 
-                check = new Rectangle(
-                    Game1.rand.Next(1, Game1.GRID_SIZE_X - 1) * Game1.TILE_SIZE,
-                    Game1.rand.Next(1, Game1.GRID_SIZE_X - 1) * Game1.TILE_SIZE,
-                    Game1.TILE_SIZE,
-                    Game1.TILE_SIZE);
+                do
+                {
+                    check = new Rectangle(
+                        Game1.rand.Next(1, Game1.GRID_SIZE_X - 1) * Game1.TILE_SIZE,
+                        Game1.rand.Next(1, Game1.GRID_SIZE_X - 1) * Game1.TILE_SIZE,
+                        Game1.TILE_SIZE,
+                        Game1.TILE_SIZE);
+                } while (check.X <= MAINFRAME_BOUNDARY_X * Game1.TILE_SIZE && check.Y <= MAINFRAME_BOUNDARY_Y * Game1.TILE_SIZE);
 
                 if (spriteSet != null)
 

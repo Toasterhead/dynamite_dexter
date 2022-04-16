@@ -40,10 +40,13 @@ namespace DynamiteDexter
                     HighScore.InsertScore(HighScore.NameEntry, (int)inGameTimer, false, true);
                 else HighScore.InsertScore(HighScore.NameEntry, player.Dollars, winBig ? true : false);
 
+                FileInOut.WriteHighScoresToFileAsync(HighScore.TopScoreDollars, HighScore.TopScoreSpeedrun);
                 HighScore.WriteToMenu();
 
                 if (HighScore.SubmittingSpeedrun)
                 {
+                    gameMode = GameModes.Title;
+
                     foreach (HighScore.FieldEntry i in HighScore.TopScoreDollars)
 
                         if (player.Dollars > i.score)
@@ -61,6 +64,9 @@ namespace DynamiteDexter
 
                             break;
                         }
+
+                    if (gameMode == GameModes.Title)
+                        PlayMusic(Sounds.Music.TITLE);
                 }
                 else
                 { 

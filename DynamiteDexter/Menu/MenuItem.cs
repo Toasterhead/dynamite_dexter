@@ -170,6 +170,7 @@
     {
         public readonly string Description;
 
+        protected readonly bool _reportAsRatio;
         protected readonly uint _max;
         protected readonly uint _standardInterval;
 
@@ -191,10 +192,11 @@
         public int ValueAsInt { get { return (int)(DataAsDouble.Value * _max); } }
         public double ValueAsDouble { get { return DataAsDouble.Value * _max; } }
 
-        public MISlider(DataDouble data, string description, uint max, uint standardInterval)
+        public MISlider(DataDouble data, string description, uint max, uint standardInterval, bool reportAsRatio = true)
             : base(data)
         {
             Description = description;
+            _reportAsRatio = reportAsRatio;
             _max = max;
             _standardInterval = standardInterval;
 
@@ -217,7 +219,8 @@
 
             DataAsDouble.Value -= ratio;
 
-            if (DataAsDouble.Value < 0.0) DataAsDouble.Value = 0.0;
+            //To prevent negative values and very small roundings above zero.
+            if (DataAsDouble.Value < 0.001) DataAsDouble.Value = 0.0;
         }
 
         public void Increase() { Increase(_standardInterval); }
@@ -229,6 +232,10 @@
 
         public override string ToString()
         {
+            if (!_reportAsRatio)
+
+                return Description + (DataAsDouble.Value * _max);
+
             return Description + DataAsDouble.Value;
         }
     }

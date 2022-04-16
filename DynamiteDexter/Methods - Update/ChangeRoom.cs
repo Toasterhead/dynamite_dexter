@@ -53,7 +53,8 @@ namespace DynamiteDexter
                     IHostile iHostile = i as IHostile;
                     i.Reposition(iHostile.StartX, iHostile.StartY);
                     iHostile.Reset();
-                }else if (i is GravityArc)
+                }
+                else if (i is GravityArc)
                 {
                     removalSet.Add(i);
                     removalSet.Add((i as GravityArc).Subject);
@@ -66,7 +67,7 @@ namespace DynamiteDexter
                     if (i is IOutlined)
                         removalSet.Add((i as IOutlined).TheOutlineMask);
                 }
-                else if (i is DynamiteIgnited)
+                else if (i is DynamiteIgnited || i is Explosion)
                     removalSet.Add(i);
                 else if (i is IResets)
                     (i as IResets).Reset();

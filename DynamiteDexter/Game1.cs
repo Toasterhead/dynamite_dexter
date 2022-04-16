@@ -182,18 +182,22 @@ namespace DynamiteDexter
             LoadCharacterSet(characterSet);
 
             FileInOut.Initialize();
-            FileInOut.LoadFromMapFileAsync();
+            FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.Map);
+            FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.BossLocation);
+            FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.DenizenLocations);
+            FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.HighScore);
 
             MenuManager.ConstructTitleMenu();
             MenuManager.ConstructPauseMenu();
             MenuManager.ConstructTextFields();
 
-            //HighScore.ReadFromFile();
-            HighScore.WriteToMenu();
+            //HighScore.LoadFromFileData(); //Now called in FileInOut.LoadFromFileAsync();
+            //HighScore.WriteToMenu();
 
             //NewGame();
 
             gameMode = GameModes.Title;
+            MediaPlayer.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
             MediaPlayer.Play(Sounds.Music.TITLE);
             mapLoadIndex = new Point(-1, -1);
 

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 namespace DynamiteDexter
 {
@@ -50,7 +51,7 @@ namespace DynamiteDexter
             dataIntegers.Add(new DataInt("resolution", 0));
 
             List<DataDouble> dataDoubles = new List<DataDouble>();
-            dataDoubles.Add(new DataDouble("soundVolume", 0.5));
+            dataDoubles.Add(new DataDouble("soundVolume", 0.3));
 
             List<DataString> dataStrings = new List<DataString>();
             for (int i = 0; i < 10; i++)
@@ -77,7 +78,7 @@ namespace DynamiteDexter
             MenuItem[] settingsItems = new MenuItem[6];
             settingsItems[0] = new MIDial(TitleMenu.GetInt("resolution"), "Screen Resolution: ", resolutions.ToArray());
             settingsItems[1] = new MISwitch(TitleMenu.GetBool("fullscreenOn"), "Fullscreen: ", "Yes", "No");
-            settingsItems[2] = new MISlider(TitleMenu.GetDouble("soundVolume"), "Sound Volume: ", 5, 1);
+            settingsItems[2] = new MISlider(TitleMenu.GetDouble("soundVolume"), "Sound Volume: ", 10, 1, reportAsRatio: false);
             settingsItems[3] = new MICommand("Apply", Apply);
             settingsItems[4] = new MISpace();
             settingsItems[5] = new MILink("Back", TitleMenu.GetSubMenu("Main"));
@@ -142,7 +143,7 @@ namespace DynamiteDexter
             mainItems.Add(new MIHeadline("  P A U S E D  "));
             mainItems.Add(new MISpace());
             mainItems.Add(new MICommand("Resume", Resume));
-            mainItems.Add(new MICommand("Quit to Main Menu", Resume));//Change delegate later.
+            mainItems.Add(new MICommand("Quit to Main Menu", QuitToMainMenu));
             mainItems.Add(new MICommand("Quit Program", Quit));
 
             PauseMenu.GetSubMenu("Main").SetItems(mainItems);
@@ -192,6 +193,8 @@ namespace DynamiteDexter
                 Game1.graphics.IsFullScreen = true;
                 Game1.graphics.ApplyChanges();
             }
+
+            MediaPlayer.Volume = (float)TitleMenu.GetDoubleVal("soundVolume");
         }
         public static void Quit(Data[] data) { Game1.quit = true; }
         public static void BeginAtHouse(Data[] data)
@@ -213,6 +216,10 @@ namespace DynamiteDexter
             Game1.gameMode = Game1.GameModes.Action;
         }
         public static void Resume(Data[] data) { Game1.gameMode = Game1.GameModes.Action; }
-        public static void QuitToMainMenu(Data[] data) { /**/ }
+        public static void QuitToMainMenu(Data[] data)
+        {
+            Game1.gameMode = Game1.GameModes.Title;
+            Game1.PlayMusic(Sounds.Music.TITLE);
+        }
     }
 }

@@ -265,10 +265,11 @@ namespace DynamiteDexter
                     {
                         if (j is IHostile || j is IProjectile || j is Spikes || j is Explosion || j is Laser || j is Alligator || j is SnakeSegment)
                         {
-                            bool isExceptional = j is GravityArc || j is LiveFlame || j is Imp || j is Laser || j is Alligator || j is IBoss;
+                            bool isExceptional = j is GravityArc || j is LiveFlame || j is Imp || j is Laser || j is Impaler || j is Alligator || j is IBoss;
                             bool isMiscType = j is IHostile || j is IProjectile;
 
                             bool struckByBoss = j is IBoss && (j as IBoss).HitBoxAssault.Intersects(player.HitBoxAssault);
+                            bool struckBySuperComputer = j is SuperComputer && (j as SuperComputer).HitBoxAssault.Intersects(player.HitBoxAssault);
                             bool struckByLargeSnake = j is SnakeSegment && (j as SnakeSegment).GetHitBox(0).Intersects(player.HitBoxAssault);
                             bool struckBySmallSnake = j is SmallSnake && (j as SmallSnake).HitBoxAssault.Intersects(player.HitBoxAssault);
                             bool struckByImp = j is Imp && (j as Imp).Lethal && (j as Imp).GetHitBox(0).Intersects(player.HitBoxAssault);
@@ -284,8 +285,9 @@ namespace DynamiteDexter
                             if (struckByMiscellaneous && struckByLightning)
                                 struckByMiscellaneous = false;
 
-                            if (struckByBoss || struckByLargeSnake || struckBySmallSnake || struckByImp || struckByPedestrian || struckByAlligator ||
-                                struckByMiscellaneous || struckBySpikes || struckByExplosion || struckByLaser || struckByImpaler)
+                            if (struckByLargeSnake || struckBySmallSnake || struckByImp ||
+                                struckByPedestrian || struckByAlligator || struckByMiscellaneous || struckBySpikes || struckByExplosion || 
+                                struckByLaser || struckByImpaler || (struckByBoss && !struckBySuperComputer))
                             {
                                 if (j is Raccoon)
                                 {
@@ -340,9 +342,14 @@ namespace DynamiteDexter
                 }
                 else if (i is IProjectile)
                 {
+                    const int PROJECTILE_MARGIN = 2 * TILE_SIZE;
+
                     IProjectile iProjectile = i as IProjectile;
 
-                    if (i.Right < 0 || i.Left >= playfield.X || i.Top < 0 || i.Bottom >= playfield.Y ||
+                    if (i.Right < -PROJECTILE_MARGIN || 
+                        i.Left >= playfield.X + PROJECTILE_MARGIN || 
+                        i.Top < -PROJECTILE_MARGIN || 
+                        i.Bottom >= playfield.Y + PROJECTILE_MARGIN ||
                         iProjectile.ContactWithWall)
                     {
                         removalSet.Add(i);

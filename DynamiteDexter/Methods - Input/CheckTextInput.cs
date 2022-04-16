@@ -36,7 +36,7 @@ namespace DynamiteDexter
                 {
                     //Stop music if departing from the house.
                     Room currentRoom = WorldCursorInRange() ? worldSet[worldCursor.X, worldCursor.Y] : null;
-                    if (currentRoom != null || (currentRoom.TheMode != Room.Mode.Ominous && currentRoom.TheMode != Room.Mode.House))
+                    if (currentRoom.TheMode != Room.Mode.Ominous && currentRoom.TheMode != Room.Mode.House)
                         MediaPlayer.Stop();
 
                     gameMode = GameModes.Action;
