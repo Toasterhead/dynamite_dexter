@@ -17,15 +17,10 @@ namespace DynamiteDexter
                 MenuManager.PauseMenu.CurrentSubMenu.MoveCursorDown();
             else if ((keys.IsKeyDown(Keys.Up) && keysPrev.IsKeyUp(Keys.Up)) || DPadUpPressed(gamepad, gamepadPrev))
                 MenuManager.PauseMenu.CurrentSubMenu.MoveCursorUp();
-            else if (
-                (keys.IsKeyDown(Keys.Enter) && keysPrev.IsKeyUp(Keys.Enter)) || 
-                ButtonPressed(gamepad, gamepadPrev) ||
-                (gamepad.Buttons.Start == ButtonState.Pressed && gamepadPrev.Buttons.Start == ButtonState.Released))
-
+            else if ((keys.IsKeyDown(Keys.Enter) && keysPrev.IsKeyUp(Keys.Enter)) || ButtonPressed(gamepad, gamepadPrev))
                 MenuManager.PauseMenu.CurrentSubMenu.Select();
-
-            else if ((keys.IsKeyDown(Keys.Escape) && keysPrev.IsKeyUp(Keys.Escape)) || 
-                ButtonPressed(gamepad, gamepadPrev) ||
+            else if (
+                (keys.IsKeyDown(Keys.Escape) && keysPrev.IsKeyUp(Keys.Escape)) || 
                 (gamepad.Buttons.Start == ButtonState.Pressed && gamepadPrev.Buttons.Start == ButtonState.Released))
 
                 gameMode = GameModes.Action;

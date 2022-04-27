@@ -67,10 +67,10 @@ namespace DynamiteDexter
                 bool isSnakeHead = (snakeHead == null ? false : i == snakeHead);
 
                 if (((i is Terrain && !(i is Passable)) || (i is SnakeSegment && !isSnakeHead)) &&
-                    gridX / TILE_SIZE >= 0 &&
-                    gridY / TILE_SIZE >= 0 &&
-                    gridX / TILE_SIZE < GRID_SIZE_X &&
-                    gridY / TILE_SIZE < GRID_SIZE_Y)
+                    gridX >= 0 &&
+                    gridY >= 0 &&
+                    gridX < GRID_SIZE_X &&
+                    gridY < GRID_SIZE_Y)
 
                     mapGrid[gridX, gridY] = false;
             }

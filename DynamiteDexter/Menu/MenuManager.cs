@@ -20,6 +20,7 @@ namespace DynamiteDexter
 
             List<Point> supportedResolutions = Game1.GetSupportedResolutions();
             Point[] gameResolutions = new Point[3];
+            string[] effectFilters = { "None", "Scanlines", "Scanlines (Green)", "Phase Shift" };
 
             for (int i = 0; i < gameResolutions.Length; i++)
                 gameResolutions[i] = new Point((i + 1) * Game1.fullfield.X, (i + 1) * Game1.fullfield.Y);
@@ -49,6 +50,7 @@ namespace DynamiteDexter
 
             List<DataInt> dataIntegers = new List<DataInt>();
             dataIntegers.Add(new DataInt("resolution", 0));
+            dataIntegers.Add(new DataInt("filter", 0));
 
             List<DataDouble> dataDoubles = new List<DataDouble>();
             dataDoubles.Add(new DataDouble("soundVolume", 0.3));
@@ -75,13 +77,14 @@ namespace DynamiteDexter
             mainItems[3] = new MILink("About", TitleMenu.GetSubMenu("About"));
             mainItems[4] = new MICommand("Quit", Quit);
 
-            MenuItem[] settingsItems = new MenuItem[6];
+            MenuItem[] settingsItems = new MenuItem[7];
             settingsItems[0] = new MIDial(TitleMenu.GetInt("resolution"), "Screen Resolution: ", resolutions.ToArray());
-            settingsItems[1] = new MISwitch(TitleMenu.GetBool("fullscreenOn"), "Fullscreen: ", "Yes", "No");
-            settingsItems[2] = new MISlider(TitleMenu.GetDouble("soundVolume"), "Sound Volume: ", 10, 1, reportAsRatio: false);
-            settingsItems[3] = new MICommand("Apply", Apply);
-            settingsItems[4] = new MISpace();
-            settingsItems[5] = new MILink("Back", TitleMenu.GetSubMenu("Main"));
+            settingsItems[1] = new MIDial(TitleMenu.GetInt("filter"), "Filter: ", effectFilters);
+            settingsItems[2] = new MISwitch(TitleMenu.GetBool("fullscreenOn"), "Fullscreen: ", "Yes", "No");
+            settingsItems[3] = new MISlider(TitleMenu.GetDouble("soundVolume"), "Sound Volume: ", 10, 1, reportAsRatio: false);
+            settingsItems[4] = new MICommand("Apply", Apply);
+            settingsItems[5] = new MISpace();
+            settingsItems[6] = new MILink("Back", TitleMenu.GetSubMenu("Main"));
 
             MenuItem[] highScoreItems = new MenuItem[12];
             for (int i = 0; i < 10; i++)

@@ -84,6 +84,7 @@ namespace DynamiteDexter
         public static List<IGameObject> spriteSet;
         public static List<IGameObject> pendingSet;
         public static List<IGameObject> removalSet;
+        public static Sprite playerHouse;
         public static Room[,] worldSet;
         public static List<Terrain>[,] alteredSet;
         public static bool[,] alteredStates;
@@ -117,6 +118,8 @@ namespace DynamiteDexter
 
         public static Effect DARKEN;
         public static Effect INVERT;
+        public static Effect PHASE_SHIFT;
+        public static Effect SCANLINE;
 
         public static string contentDir;//
 
@@ -185,6 +188,7 @@ namespace DynamiteDexter
             FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.Map);
             FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.BossLocation);
             FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.DenizenLocations);
+            FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.EntryPoints);
             FileInOut.LoadFromFileAsync(FileInOut.GameDataFiles.HighScore);
 
             MenuManager.ConstructTitleMenu();

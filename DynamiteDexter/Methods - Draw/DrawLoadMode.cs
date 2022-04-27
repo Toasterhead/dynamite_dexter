@@ -16,6 +16,7 @@ namespace DynamiteDexter
             int marginTextTop = marginTop - (2 * SUB_TILE_SIZE);
             int fillSize = mapLoadIndex.X >= 0 && mapLoadIndex.Y >= 0 ?
                 (int)(((float)mapLoadIndex.Y / WORLD_SIZE_Y) * LOAD_BAR_SIZE) + 1 : 0;
+            bool displayFloppyDisk = mapLoadIndex.X % 20 >= 5;
 
             GraphicsDevice.SetRenderTarget(canvasFull);
 
@@ -26,6 +27,8 @@ namespace DynamiteDexter
                 spriteBatch.Draw(Images.LOAD_BAR_MIDDLE, new Vector2(i * SUB_TILE_SIZE + SUB_TILE_SIZE + marginLeft, marginTop), Color.White);
             for (int i = 0; i < fillSize; i++)
                 spriteBatch.Draw(Images.LOAD_BAR_FILL, new Vector2(i * SUB_TILE_SIZE + SUB_TILE_SIZE + marginLeft, marginTop), Color.White);
+            if (displayFloppyDisk)
+                spriteBatch.Draw(Images.FLOPPY_DISK, new Vector2((LOAD_BAR_SIZE / 2) * SUB_TILE_SIZE + marginLeft, 4 * SUB_TILE_SIZE + marginTop), Color.White);
             spriteBatch.Draw(Images.LOAD_BAR_RIGHT, new Vector2(LOAD_BAR_SIZE * SUB_TILE_SIZE + SUB_TILE_SIZE + marginLeft, marginTop), Color.White);
             spriteBatch.End();
 

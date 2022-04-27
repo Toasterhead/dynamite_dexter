@@ -28,6 +28,7 @@ namespace DynamiteDexter
 
             BossRoom.MarkLocation(Map.LoadBossLocations(FileInOut.bossLocationFileData));
             HouseRoom.MarkLocation(Map.LoadDenizenLocations(FileInOut.denizenLocationFileData));
+            ForbiddenWorld.LoadEntryPoints(FileInOut.entryPointsFileData);
 
             worldSet = new Room[WORLD_SIZE_X, WORLD_SIZE_Y];
             alteredSet = new List<Terrain>[WORLD_SIZE_X, WORLD_SIZE_Y];
@@ -39,6 +40,8 @@ namespace DynamiteDexter
                 for (int j = 0; j < WORLD_SIZE_Y; j++)//
                     worldSet[i, j] = new Room(new List<IGameObject>(), "", Room.Mode.Standard);//
             spriteSet = new List<IGameObject>();//
+
+            ForbiddenWorld.ResetCounts();
 
             string textMessageString = ""; //Default string to establish height of text field.
             for (int i = 0; i < 36 * 26; i++)
@@ -59,7 +62,7 @@ namespace DynamiteDexter
             MediaPlayer.Stop();
             MediaPlayer.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
             currentSound.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
-            
+            worldCursor.X = 11; worldCursor.Y = 19; for (int i = 0; i < 4; i++) player.IncreaseKeys(); //
             mapLoadIndex = new Point(0, 0);
         }
     }

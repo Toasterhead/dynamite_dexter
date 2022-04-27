@@ -4,8 +4,8 @@
     {
         public const string DEPARTURE =
             "Dexter is a young boy who is fascinated with explosions and pyrotechnics. Unfortunately, this hobby led to the obliteration of the household kitchen after an experiment with nitroglycerin.\n\n " +
-            "Dexter's parents were unamused. 'This is coming directly from your allowance, young man!' his father scolded.\n\n " + 
-            "This was a crisis. Now he could never afford the new gaming computer he'd been saving for. He'd be stuck with pixellated, 1-bit graphics forever! His only other option was to set out and find the money somewhere.\n\n " +
+            "Dexter's parents were not amused. 'This is coming directly from your allowance, young man!' his father scolded.\n\n " + 
+            "This was a crisis. Now he would never afford the new gaming computer he'd been saving for. He'd be stuck with pixellated, 1-bit graphics forever! His only remaining option was to set out and find the money somewhere.\n\n " +
             "Thus begins Dexter's adventure. Can you help him along the way?\n\n " +
             "(Press any key to continue...)";
         public const string LOAD = "Loading...";

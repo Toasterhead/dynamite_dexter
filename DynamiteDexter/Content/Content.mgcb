@@ -1141,6 +1141,18 @@
 /processorParam:DebugMode=Auto
 /build:effects/invert.fx
 
+#begin effects/phase_shift.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/phase_shift.fx
+
+#begin effects/scanline.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/scanline.fx
+
 #begin images/actor/denizen.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1884,6 +1896,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/functional/flag_pole_bottom.png
+
+#begin images/functional/floppy_disk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/functional/floppy_disk.png
 
 #begin images/functional/gate_horizontal.png
 /importer:TextureImporter
@@ -3504,6 +3528,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/illustration/house_background.png
+
+#begin images/illustration/house_punctured.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/illustration/house_punctured.png
 
 #begin images/illustration/lair_entrance.png
 /importer:TextureImporter

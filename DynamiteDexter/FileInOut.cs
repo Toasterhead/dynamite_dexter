@@ -9,7 +9,7 @@ namespace DynamiteDexter
 {
     public static class FileInOut
     {
-        public enum GameDataFiles { Map = 0, BossLocation, DenizenLocations, HighScore}
+        public enum GameDataFiles { Map = 0, BossLocation, DenizenLocations, EntryPoints, HighScore}
 
         private const char COMMAND_MARKER = '$';
         private const char DELIMITER_PRIMARY = ':';
@@ -18,6 +18,7 @@ namespace DynamiteDexter
         private const string FILE_NAME_MAP = "dex_map.dat";
         private const string FILE_NAME_BOSS_LOCATION = "boss_location.dat";
         private const string FILE_NAME_DENIZEN_LOCATION = "denizen_location.dat";
+        private const string FILE_NAME_ENTRY_POINTS = "entry_points.dat";
         private const string FILE_NAME_HIGH_SCORE = "high_score.dat";
         private const string ROOM_COMMAND = "$room:";
 
@@ -51,6 +52,7 @@ namespace DynamiteDexter
         public static List<string>[,] mapFileData;
         public static List<string> bossLocationFileData;
         public static List<string> denizenLocationFileData;
+        public static List<string> entryPointsFileData;
         public static List<string> highScoreFileData;
 
         public static void Initialize()
@@ -58,6 +60,7 @@ namespace DynamiteDexter
             mapFileData = new List<string>[Game1.WORLD_SIZE_X, Game1.WORLD_SIZE_Y];
             bossLocationFileData = new List<string>();
             denizenLocationFileData = new List<string>();
+            entryPointsFileData = new List<string>();
             highScoreFileData = new List<string>();
 
             for (int i = 0; i < Game1.WORLD_SIZE_X; i++)
@@ -78,6 +81,8 @@ namespace DynamiteDexter
                 case GameDataFiles.BossLocation: filename = FILE_NAME_BOSS_LOCATION;
                     break;
                 case GameDataFiles.DenizenLocations: filename = FILE_NAME_DENIZEN_LOCATION;
+                    break;
+                case GameDataFiles.EntryPoints: filename = FILE_NAME_ENTRY_POINTS;
                     break;
                 case GameDataFiles.HighScore: filename = FILE_NAME_HIGH_SCORE;
                     break;
@@ -143,6 +148,10 @@ namespace DynamiteDexter
                 case GameDataFiles.DenizenLocations:
                     foreach (string line in lines)
                         if (line != "") denizenLocationFileData.Add(line);
+                    break;
+                case GameDataFiles.EntryPoints:
+                    foreach (string line in lines)
+                        if (line != "") entryPointsFileData.Add(line);
                     break;
                 case GameDataFiles.HighScore:
                     foreach (string line in lines)

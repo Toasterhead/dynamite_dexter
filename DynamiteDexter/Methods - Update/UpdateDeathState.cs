@@ -41,6 +41,13 @@ namespace DynamiteDexter
             }
             else if (timeElapsed == SCRIPT_INTERVAL * 4)
                 PlaySound(Sounds.THUMP);
+            
+            if (playerHouse is SpriteSheet)
+            {
+                worldSet[BEGIN_ROOM_X, BEGIN_ROOM_Y].SpriteSet.Remove(playerHouse);
+                playerHouse = new Sprite(Images.HOUSE, 4 * TILE_SIZE, 1 * TILE_SIZE, (int)Layers.Floor);
+                worldSet[BEGIN_ROOM_X, BEGIN_ROOM_Y].SpriteSet.Add(playerHouse);
+            }
 
             universalTimer++;
         }

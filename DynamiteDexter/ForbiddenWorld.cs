@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 
@@ -7,8 +8,12 @@ namespace DynamiteDexter
     public static class ForbiddenWorld
     {
         private const int MARGIN = 3 * Game1.TILE_SIZE;
-        private const int ENTRY_POINT_X = 11;
-        private const int ENTRY_POINT_Y = 20;
+        private const int INITIAL_TREASURE_SUPPLY = 50;
+        private const int DIFFICULTY_SPIKE_THRESHOLD = 30;
+
+        private static List<Point> entryPoints = new List<Point>();
+        private static int? totalTreasureSupply = INITIAL_TREASURE_SUPPLY;
+        private static int traversals = 0;
 
         private static readonly string leftToRight =
             "..............." +
@@ -217,7 +222,7 @@ namespace DynamiteDexter
 
             Point previousLocationDuplicate = previousLocation;
 
-            if (worldCursor.X == ENTRY_POINT_X && worldCursor.Y == ENTRY_POINT_Y)
+            if (AtValidEntryPoint(worldCursor.X, worldCursor.Y))
 
                 selection = cross;
 
@@ -262,7 +267,7 @@ namespace DynamiteDexter
                         selectionValid = false;
 
                     //Bug fix.
-                    if (selectionValid == false && worldCursor.X == ENTRY_POINT_X && worldCursor.Y == ENTRY_POINT_Y)
+                    if (selectionValid == false && AtValidEntryPoint(worldCursor.X, worldCursor.Y))
                     {
                         selectionValid = true;
                         selection = cross;
@@ -305,7 +310,9 @@ namespace DynamiteDexter
                 if (i > level)
                     level = i;
 
-            int enemyCap = 3 * (level + 1);
+            int difficultySpike = traversals >= DIFFICULTY_SPIKE_THRESHOLD ? (traversals - DIFFICULTY_SPIKE_THRESHOLD) / 4 : 0;
+
+            int enemyCap = 3 * (level + 1) + difficultySpike;
             int dynamiteCap = level;
             int treasureCap = level + 2;
 
@@ -313,7 +320,7 @@ namespace DynamiteDexter
             int dynamiteCount = 0;
             int treasureCount = 0;
 
-            int probability = 40 / (level + 1);
+            int probability = 40 / (level + 1 + (difficultySpike / 4));
 
             //Create sprite set...
 
@@ -335,9 +342,15 @@ namespace DynamiteDexter
                     {
                         if (level >= 2 && Game1.rand.Next(4) == 0 && treasureCount++ < treasureCap)
                         {
-                            if (Game1.rand.Next(5) == 0)
-                                spriteSet.Add(new MoneyBag(x, y));
-                            else spriteSet.Add(new Coins(x, y));
+                            if (totalTreasureSupply != null)
+                            { 
+                                if (Game1.rand.Next(5) == 0)
+                                    spriteSet.Add(new MoneyBag(x, y));
+                                else spriteSet.Add(new Coins(x, y));
+
+                                if (--totalTreasureSupply <= 0) totalTreasureSupply = null;
+                            }
+                            else spriteSet.Add(GetRandomEnemy(x, y, player));
                         }
                         else if (dynamiteCount++ < dynamiteCap)
                         {
@@ -361,6 +374,8 @@ namespace DynamiteDexter
                     (i as INavigates).AcquireSet(spriteSet);
             }
 
+            traversals++;
+
             return spriteSet;
         }
 
@@ -377,6 +392,44 @@ namespace DynamiteDexter
             }
 
             return new Beetle(x, y);
+        }
+
+        private static bool AtValidEntryPoint(int worldCursorX, int worldCursorY)
+        {
+            bool atEdge =
+                (worldCursorX == -1 && worldCursorY >= 0 && worldCursorY < Game1.WORLD_SIZE_Y) ||
+                (worldCursorX == Game1.WORLD_SIZE_X && worldCursorY >= 0 && worldCursorY < Game1.WORLD_SIZE_Y) ||
+                (worldCursorY == -1 && worldCursorX >= 0 && worldCursorX < Game1.WORLD_SIZE_X) ||
+                (worldCursorY == Game1.WORLD_SIZE_Y && worldCursorX >= 0 && worldCursorX < Game1.WORLD_SIZE_X);
+
+            if (atEdge)
+            { 
+                foreach (Point entryPoint in entryPoints)
+            
+                    if (worldCursorX == entryPoint.X && worldCursorY == entryPoint.Y)
+
+                        return true;
+            }
+
+            return false;
+        }
+
+        public static void LoadEntryPoints(List<string> entryPointsFileData)
+        {
+            char[] delimiters = { ':' };
+            entryPoints = new List<Point>();
+
+            foreach (string line in entryPointsFileData)
+            {
+                string[] terms = line.Split(delimiters);
+                entryPoints.Add(new Point(Convert.ToInt32(terms[0]), Convert.ToInt32(terms[1])));
+            }
+        }
+
+        public static void ResetCounts()
+        {
+            traversals = 0;
+            totalTreasureSupply = INITIAL_TREASURE_SUPPLY;
         }
     }
 }

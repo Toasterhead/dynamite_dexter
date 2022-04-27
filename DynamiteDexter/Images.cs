@@ -26,6 +26,7 @@ namespace DynamiteDexter
         public static Texture2D DENIZEN_PENGUIN;
         public static Texture2D DENIZEN_ROBOT;
         public static Texture2D HOUSE;
+        public static Texture2D HOUSE_PUNCTURED;
         public static Texture2D LAIR_ENTRANCE;
         public static Texture2D PLANET;
         public static Texture2D PLANET_RINGED;
@@ -110,6 +111,7 @@ namespace DynamiteDexter
         public static Texture2D FADE_SCREEN;
         public static Texture2D FLAG;
         public static Texture2D FLAG_POLE_BOTTOM;
+        public static Texture2D FLOPPY_DISK;
         public static Texture2D GATE_HORIZONTAL;
         public static Texture2D GATE_VERTICAL;
         public static Texture2D ICON_STAR;

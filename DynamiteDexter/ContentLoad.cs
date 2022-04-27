@@ -20,6 +20,8 @@ namespace DynamiteDexter
             //Effects
             DARKEN = Content.Load<Effect>("effects/darken");
             INVERT = Content.Load<Effect>("effects/invert");
+            PHASE_SHIFT = Content.Load<Effect>("effects/phase_shift");
+            SCANLINE = Content.Load<Effect>("effects/scanline");
 
             //Sounds
             Sounds.ALTERED_PATH = Content.Load<SoundEffect>("sound/altered_path").CreateInstance();
@@ -89,6 +91,7 @@ namespace DynamiteDexter
             Images.DENIZEN_ROBOT = Content.Load<Texture2D>("images/illustration/denizen_robot");
             Images.DENIZEN_WOMAN = Content.Load<Texture2D>("images/illustration/denizen_woman");
             Images.HOUSE = Content.Load<Texture2D>("images/illustration/house");
+            Images.HOUSE_PUNCTURED = Content.Load<Texture2D>("images/illustration/house_punctured");
             Images.BACKGROUND_HOUSE = Content.Load<Texture2D>("images/illustration/house_background");
             Images.LAIR_ENTRANCE = Content.Load<Texture2D>("images/illustration/lair_entrance");
             Images.BACKGROUND_MAP = Content.Load<Texture2D>("images/illustration/world_map");
@@ -156,6 +159,7 @@ namespace DynamiteDexter
             Images.FADE_SCREEN = Content.Load<Texture2D>("images/functional/fade_screen");
             Images.FLAG = Content.Load<Texture2D>("images/functional/flag");
             Images.FLAG_POLE_BOTTOM = Content.Load<Texture2D>("images/functional/flag_pole_bottom");
+            Images.FLOPPY_DISK = Content.Load<Texture2D>("images/functional/floppy_disk");
             Images.GATE_HORIZONTAL = Content.Load<Texture2D>("images/functional/gate_horizontal");
             Images.GATE_VERTICAL = Content.Load<Texture2D>("images/functional/gate_vertical");
             Images.ICON_STAR = Content.Load<Texture2D>("images/functional/icon_star");

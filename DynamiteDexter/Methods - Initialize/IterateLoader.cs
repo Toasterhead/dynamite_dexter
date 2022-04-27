@@ -21,10 +21,15 @@ namespace DynamiteDexter
                     {
                         mapLoadIndex = new Point(-1, -1);
 
+                        playerHouse = new SpriteSheet(
+                            new SpriteInfo(Images.HOUSE_PUNCTURED, 4 * TILE_SIZE, 1 * TILE_SIZE, (int)Layers.Floor),
+                            new CollisionInfo(null, null),
+                            new AnimationInfo(2, 1, 15, false));
+
                         spriteSet = worldSet[worldCursor.X, worldCursor.Y].SpriteSet;
                         spriteSet.Add(player);
                         spriteSet.Add(player.TheOutlineMask);
-                        spriteSet.Add(new Sprite(Images.HOUSE, 5 * TILE_SIZE, 1 * TILE_SIZE, (int)Layers.Floor));
+                        spriteSet.Add(playerHouse);
 
                         foreach (Room i in worldSet)
                             foreach (IGameObject j in i.SpriteSet)

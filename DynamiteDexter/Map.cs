@@ -250,6 +250,29 @@ namespace DynamiteDexter
                 }
             }
 
+            try
+            {
+                //Justify the altered set as a collection of general game objects to use as a method argument.
+
+                List<IGameObject> alteredGameObject = new List<IGameObject>();
+
+                foreach (Terrain i in alteredSet)
+                    alteredGameObject.Add(i as IGameObject);
+
+                AssociateSignPost(alteredGameObject);
+                WaterTileReplacement(alteredGameObject);
+
+                alteredSet = new List<Terrain>();
+
+                foreach (IGameObject i in alteredGameObject)
+                    if (i is Terrain) alteredSet.Add(i as Terrain);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.InnerException);
+            }
+
             return alteredSet;
         }
 
@@ -613,6 +636,7 @@ namespace DynamiteDexter
                 case Game1.Environments.Cemetary:
                 case Game1.Environments.Desert:
                 case Game1.Environments.Jungle:
+                case Game1.Environments.Jail:
                 case Game1.Environments.Catacomb:
                 case Game1.Environments.Cave: image = secondary ? Images.DIRT_2 : Images.DIRT_1;
                     break;
