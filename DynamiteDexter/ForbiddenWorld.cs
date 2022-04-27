@@ -9,7 +9,7 @@ namespace DynamiteDexter
     {
         private const int MARGIN = 3 * Game1.TILE_SIZE;
         private const int INITIAL_TREASURE_SUPPLY = 50;
-        private const int DIFFICULTY_SPIKE_THRESHOLD = 30;
+        private const int DIFFICULTY_SPIKE_THRESHOLD = 20;
 
         private static List<Point> entryPoints = new List<Point>();
         private static int? totalTreasureSupply = INITIAL_TREASURE_SUPPLY;
@@ -266,8 +266,7 @@ namespace DynamiteDexter
                     else if (worldCursor.Y == Game1.WORLD_SIZE_Y && worldCursor.X >= 0 && worldCursor.X < Game1.WORLD_SIZE_X && topCompatible.ToList<string>().Contains(selection))
                         selectionValid = false;
 
-                    //Bug fix.
-                    if (selectionValid == false && AtValidEntryPoint(worldCursor.X, worldCursor.Y))
+                    if (AtValidEntryPoint(worldCursor.X, worldCursor.Y))
                     {
                         selectionValid = true;
                         selection = cross;

@@ -1129,6 +1129,12 @@
 /processorParam:TextureFormat=Color
 /build:characters/Z.png
 
+#begin effects/back_color.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/back_color.fx
+
 #begin effects/darken.fx
 /importer:EffectImporter
 /processor:EffectProcessor

@@ -7,11 +7,6 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 
 /*
-    After moving source files to Windows Universal Application (UWP) project, HighScore.cs and Map.cs have persistent errors related to
-    the StreamReader object type and AppDomain. Investigate later.
-*/
-
-/*
     IMPORTANT
 
     If the project is to be deployed for public use, remember to enable the following security features under the project's settings:
@@ -39,6 +34,7 @@ namespace DynamiteDexter
             FirstAndThirdQuarter,
             SecondAndFourthQuarter
         }
+        public enum RenderEffects { None = 0, ScanlinesGreen, ScanlinesBlue, Terminal, PhaseShift, EnumSize }
 
         public const int TILE_SIZE = 16;
         public const int SUB_TILE_SIZE = TILE_SIZE / 2;
@@ -48,6 +44,8 @@ namespace DynamiteDexter
         public const int WORLD_SIZE_Y = 20;
         public const int BEGIN_ROOM_X = 10;
         public const int BEGIN_ROOM_Y = 10;
+        public const int FULLFIELD_SIZE_X = 320;
+        public const int FULLFIELD_SIZE_Y = 240;
         public const int BEGIN_POSITION_X = 5 * TILE_SIZE;
         public const int BEGIN_POSITION_Y = 5 * TILE_SIZE;
         public const int SYNC_QUARTER = 15;
@@ -80,6 +78,7 @@ namespace DynamiteDexter
         public static Textfield textDollars;
         public static Textfield textMessage;
         public static Textfield textPlaque;
+        public static Textfield textUnavailable;
         public static FlagStatus[] flagStatus;
         public static List<IGameObject> spriteSet;
         public static List<IGameObject> pendingSet;
@@ -108,6 +107,7 @@ namespace DynamiteDexter
         public static RenderTarget2D canvasAction;
         public static RenderTarget2D canvasHud;
         public static RenderTarget2D canvasFull;
+        public static RenderEffects renderEffect;
         public static Texture2D illustration;
         public static int canvasMultiplier; //Fullscreen mode only;
 
@@ -116,6 +116,7 @@ namespace DynamiteDexter
         public static SoundEffectInstance currentSound;
         public static SoundEffectInstance queuedSound;
 
+        public static Effect BACK_COLOR;
         public static Effect DARKEN;
         public static Effect INVERT;
         public static Effect PHASE_SHIFT;
@@ -139,17 +140,21 @@ namespace DynamiteDexter
         {
             base.Initialize();
 
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = "Dynamite Dexter";
+
             Tile.TileSize = TILE_SIZE;
 
-            playfield = new Point(GRID_SIZE_X * TILE_SIZE, GRID_SIZE_Y * TILE_SIZE); //(240, 240)
-            hudfield = new Point(80, 240);
-            fullfield = new Point(playfield.X + hudfield.X, playfield.Y); //(320, 240)
+            playfield = new Point(GRID_SIZE_X * TILE_SIZE, GRID_SIZE_Y * TILE_SIZE);        //(240, 240)
+            hudfield = new Point(FULLFIELD_SIZE_X - playfield.X, GRID_SIZE_Y * TILE_SIZE);  //( 80, 240)
+            fullfield = new Point(FULLFIELD_SIZE_X, FULLFIELD_SIZE_Y);                      //(320, 240)
 
             TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 30.0f); // --- Adjust framerate.
 
+            canvasMultiplier = HighestSupportedResolutionMultiplier();
+
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 2 * fullfield.X;
-            graphics.PreferredBackBufferHeight = 2 * fullfield.Y;
+            graphics.PreferredBackBufferWidth = canvasMultiplier * fullfield.X;
+            graphics.PreferredBackBufferHeight = canvasMultiplier * fullfield.Y;
             graphics.ApplyChanges();
 
             theGraphicsDevice = GraphicsDevice;
@@ -178,6 +183,8 @@ namespace DynamiteDexter
                 GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
 
+            renderEffect = RenderEffects.None;
+
             rand = new Random();
             quit = false;
 
@@ -194,6 +201,8 @@ namespace DynamiteDexter
             MenuManager.ConstructTitleMenu();
             MenuManager.ConstructPauseMenu();
             MenuManager.ConstructTextFields();
+            textUnavailable = new Textfield(characterSet, "-- (unavailable) --", 0, 0, 480);
+            textUnavailable.Draw();
 
             //HighScore.LoadFromFileData(); //Now called in FileInOut.LoadFromFileAsync();
             //HighScore.WriteToMenu();

@@ -62,7 +62,7 @@ namespace DynamiteDexter
             MediaPlayer.Stop();
             MediaPlayer.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
             currentSound.Volume = (float)MenuManager.TitleMenu.GetDoubleVal("soundVolume");
-            worldCursor.X = 11; worldCursor.Y = 19; for (int i = 0; i < 4; i++) player.IncreaseKeys(); //
+            
             mapLoadIndex = new Point(0, 0);
         }
     }

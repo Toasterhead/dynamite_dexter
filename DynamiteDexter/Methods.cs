@@ -106,6 +106,26 @@ namespace DynamiteDexter
             return graph;
         }
 
+        public static string FilterName(RenderEffects renderEffect)
+        {
+            switch (renderEffect)
+            {
+                case RenderEffects.None: return "None";
+                case RenderEffects.ScanlinesGreen: return "Scanlines (Green)";
+                case RenderEffects.ScanlinesBlue: return "Scanlines (Blue)";
+                case RenderEffects.Terminal: return "Terminal";
+                case RenderEffects.PhaseShift: return "Phase Shift";
+                default: throw new Exception("Error - invalid filter index.");
+            }
+        }
+
+        public static Point GetCurrentResolution()
+        {
+            DisplayMode displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+
+            return new Point(displayMode.Width, displayMode.Height);
+        }
+
         public static List<Point> GetSupportedResolutions()
         {
             List<Point> supportedResolutions = new List<Point>();
@@ -126,6 +146,19 @@ namespace DynamiteDexter
             }
 
             return supportedResolutions;
+        }
+
+        public static int HighestSupportedResolutionMultiplier()
+        {
+            Point currentResolution = GetCurrentResolution();
+
+            for (int i = 1; i < 8; i++)
+
+                if ((i + 1) * FULLFIELD_SIZE_X > currentResolution.X || (i + 1) * FULLFIELD_SIZE_Y > currentResolution.Y)
+
+                    return i;
+
+            return 1;
         }
 
         public static bool IsOutdoor(Game1.Environments environment)

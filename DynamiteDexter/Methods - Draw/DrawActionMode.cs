@@ -174,24 +174,11 @@ namespace DynamiteDexter
             spriteBatch.Draw(flagStatus[7].raised? Images.FLAG_8 : Images.FLAG_NEGATIVE, new Vector2(6 * SUB_TILE_SIZE, 26 * SUB_TILE_SIZE), Color.White);
             spriteBatch.End();
 
-            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.SetRenderTarget(canvasFull);
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if (graphics.IsFullScreen)
-                spriteBatch.Draw(
-                    canvasHud,
-                    new Rectangle(
-                        (int)(0.5 * (graphics.PreferredBackBufferWidth - (canvasMultiplier * fullfield.X))) + (canvasMultiplier * playfield.X),
-                        (int)(0.5 * (graphics.PreferredBackBufferHeight - (canvasMultiplier * fullfield.Y))),
-                        canvasMultiplier * hudfield.X,
-                        canvasMultiplier * hudfield.Y),
-                    Color.White);
-            else spriteBatch.Draw(
+            spriteBatch.Draw(
                 canvasHud,
-                new Rectangle(
-                    (int)(ACTION_CANVAS_RATIO * graphics.PreferredBackBufferWidth),
-                    0,
-                    (int)((1.0 - ACTION_CANVAS_RATIO) * graphics.PreferredBackBufferWidth),
-                    graphics.PreferredBackBufferHeight),
+                new Rectangle(240, 0, 80, 240),
                 Color.White);
             if (isDark)
             {
@@ -207,7 +194,16 @@ namespace DynamiteDexter
             }
             if (screenFlashTimer > 0 && screenFlashTimer % 2 == 0)
                 INVERT.CurrentTechnique.Passes[0].Apply();
-            SubDrawAction();
+            spriteBatch.Draw(
+                    canvasAction,
+                    new Rectangle(0, 0, 240, 240),
+                    Color.White);
+            spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            SubDrawFull();
             spriteBatch.End();
         }
     }

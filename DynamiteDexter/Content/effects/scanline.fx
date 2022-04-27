@@ -3,6 +3,9 @@ static const float BOOST_RATIO 		= 0.25;
 
 float surfaceHeight;
 float brightness;
+float tintR;
+float tintG;
+float tintB;
 
 sampler s0;
 
@@ -17,8 +20,12 @@ float4 Scanline(float4 position : SV_Position, float4 color : COLOR0, float2 coo
 
 	color = tex2D(s0, coords);
 	
+	color.r *= tintR;
+	color.g *= tintG;
+	color.b *= tintB;
+		
 	if (verticalPosition % 2 != 0)
-		color.rgb *= 0.5 + boost;
+		color.rgb *= 0.5 + boost;	
 
 	return color;
 }

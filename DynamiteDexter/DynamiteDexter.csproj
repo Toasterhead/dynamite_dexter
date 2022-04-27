@@ -186,7 +186,6 @@
     <Compile Include="Methods - Draw\DrawWaypointMode.cs" />
     <Compile Include="Methods - Draw\DrawWinAMode.cs" />
     <Compile Include="Methods - Draw\DrawWinBMode.cs" />
-    <Compile Include="Methods - Draw\SubDrawAction.cs" />
     <Compile Include="Methods - Draw\SubDrawFull.cs" />
     <Compile Include="Methods - Initialize\InitializeNewGame.cs" />
     <Compile Include="Methods - Initialize\IterateLoader.cs" />

@@ -88,6 +88,7 @@ namespace DynamiteDexter
             GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            ProcessEffect();
             if (graphics.IsFullScreen)
                 spriteBatch.Draw(
                     canvasFull,

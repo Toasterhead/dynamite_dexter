@@ -18,6 +18,7 @@ namespace DynamiteDexter
             contentDir = Content.RootDirectory;//
 
             //Effects
+            BACK_COLOR = Content.Load<Effect>("effects/back_color");
             DARKEN = Content.Load<Effect>("effects/darken");
             INVERT = Content.Load<Effect>("effects/invert");
             PHASE_SHIFT = Content.Load<Effect>("effects/phase_shift");

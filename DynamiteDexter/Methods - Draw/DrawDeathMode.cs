@@ -14,7 +14,7 @@ namespace DynamiteDexter
                  new Rectangle(0, 0, TILE_SIZE, TILE_SIZE) :
                  new Rectangle(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE);
 
-            GraphicsDevice.SetRenderTarget(canvasAction);
+            GraphicsDevice.SetRenderTarget(canvasFull);
 
             spriteBatch.Begin();
             if (timeElapsed < SCRIPT_INTERVAL * 2)
@@ -38,8 +38,8 @@ namespace DynamiteDexter
 
             GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            SubDrawAction();            
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            SubDrawFull();
             spriteBatch.End();
         }
     }

@@ -41,7 +41,7 @@ namespace DynamiteDexter
 
             GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             SubDrawFull();
             spriteBatch.End();
         }

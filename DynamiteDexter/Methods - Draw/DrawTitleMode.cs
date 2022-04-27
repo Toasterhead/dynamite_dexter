@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DynamiteDexter
@@ -58,7 +59,7 @@ namespace DynamiteDexter
 
             GraphicsDevice.SetRenderTarget(canvasFull);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (displayTitleGraphic)
                 spriteBatch.Draw(Images.TITLE, new Vector2((fullfield.X / 2) - (Images.TITLE.Width / 2), TITLE_MARGIN_TOP), Color.White);
             else spriteBatch.Draw(
@@ -84,10 +85,19 @@ namespace DynamiteDexter
                             Color.White);
             }
             for (int i = 0; i < MenuManager.TitleMenu.CurrentSubMenuLength; i++)
-                spriteBatch.Draw(
+            {
+                MenuItem menuItem = MenuManager.TitleMenu.CurrentSubMenu.GetAtIndex(i);
+
+                if (menuItem is ISelectable && (menuItem as ISelectable).Muted)
+                    spriteBatch.Draw(
+                        textUnavailable.Image,
+                        new Vector2(marginLeft, i * SUB_TILE_SIZE + MARGIN_TOP),
+                        Color.White);
+                else spriteBatch.Draw(
                     MenuManager.TheTextfields[i].Image, 
                     new Vector2(marginLeft, i * SUB_TILE_SIZE + MARGIN_TOP), 
                     Color.White);
+            }
             spriteBatch.Draw(
                 Images.ICON_CURSOR, 
                 new Vector2(marginLeft - (2 * SUB_TILE_SIZE), 
@@ -97,7 +107,7 @@ namespace DynamiteDexter
 
             GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             SubDrawFull();
             spriteBatch.End();
         }

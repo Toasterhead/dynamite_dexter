@@ -300,7 +300,7 @@ namespace DynamiteDexter
             if (chargeCount == null && 
                 _target.Center.Y >= Top && 
                 _target.Center.Y < Bottom && 
-                Game1.rand.Next(150) == 0)
+                Game1.rand.Next(100) == 0)
             {
                 chargeCount = WIND_UP_DURATION;
                 movementCount = MOVEMENT_DURATION;
