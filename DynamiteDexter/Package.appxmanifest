@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="4a49ded6-c68e-4761-87a8-a925eed019bc" Publisher="CN=Lenny" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="4a49ded6-c68e-4761-87a8-a925eed019bc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="41951LennyYoung.DynamiteDexter" Publisher="CN=0307F805-82CC-403A-8C6D-CC8105A98496" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="faec26f4-ca77-4478-8c9c-c6bcc708cd3d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>DynamiteDexter</DisplayName>
-    <PublisherDisplayName>Lenny</PublisherDisplayName>
+    <DisplayName>Dynamite Dexter</DisplayName>
+    <PublisherDisplayName>Lenny Young</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -16,6 +16,9 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DynamiteDexter.App">
       <uap:VisualElements DisplayName="Dynamite Dexter" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="An explosive action-adventure in the style of an early home computer game." BackgroundColor="#464646">
+        <uap:DefaultTile ShortName="Dynamite Dexter">
+        </uap:DefaultTile>
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

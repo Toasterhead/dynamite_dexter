@@ -18,8 +18,9 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>DynamiteDexter_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>DynamiteDexter_StoreKey.pfx</PackageCertificateKeyFile>
     <MonoGamePlatform>WindowsStoreApp</MonoGamePlatform>
+    <PackageCertificateThumbprint>775871AB207186C3212B307C50F6CA37946AF694</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -233,9 +234,40 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\SmallLogo.scale-125.png" />
+    <Content Include="Assets\SmallLogo.scale-150.png" />
+    <Content Include="Assets\SmallLogo.scale-200.png" />
+    <Content Include="Assets\SmallLogo.scale-400.png" />
+    <Content Include="Assets\SmallLogo.targetsize-16.png" />
+    <Content Include="Assets\SmallLogo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\SmallLogo.targetsize-24.png" />
+    <Content Include="Assets\SmallLogo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\SmallLogo.targetsize-256.png" />
+    <Content Include="Assets\SmallLogo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\SmallLogo.targetsize-32.png" />
+    <Content Include="Assets\SmallLogo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\SmallLogo.targetsize-48.png" />
+    <Content Include="Assets\SmallLogo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="dex_boss_location.dat" />
+    <Content Include="dex_denizen_location.dat" />
+    <Content Include="dex_entry_points.dat" />
+    <Content Include="dex_map.dat" />
+    <None Include="DynamiteDexter_StoreKey.pfx" />
     <None Include="DynamiteDexter_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="player.ico" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -243,7 +275,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>

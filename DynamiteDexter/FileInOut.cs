@@ -9,17 +9,17 @@ namespace DynamiteDexter
 {
     public static class FileInOut
     {
-        public enum GameDataFiles { Map = 0, BossLocation, DenizenLocations, EntryPoints, HighScore}
+        public enum GameDataFiles { Map = 0, BossLocation, DenizenLocations, EntryPoints, HighScore }
 
         private const char COMMAND_MARKER = '$';
         private const char DELIMITER_PRIMARY = ':';
-        private static char[] delimiters = { COMMAND_MARKER, ':', ','};
+        private static char[] delimiters = { COMMAND_MARKER, ':', ',' };
 
         private const string FILE_NAME_MAP = "dex_map.dat";
-        private const string FILE_NAME_BOSS_LOCATION = "boss_location.dat";
-        private const string FILE_NAME_DENIZEN_LOCATION = "denizen_location.dat";
-        private const string FILE_NAME_ENTRY_POINTS = "entry_points.dat";
-        private const string FILE_NAME_HIGH_SCORE = "high_score.dat";
+        private const string FILE_NAME_BOSS_LOCATION = "dex_boss_location.dat";
+        private const string FILE_NAME_DENIZEN_LOCATION = "dex_denizen_location.dat";
+        private const string FILE_NAME_ENTRY_POINTS = "dex_entry_points.dat";
+        private const string FILE_NAME_HIGH_SCORE = "dex_high_score.dat";
         private const string ROOM_COMMAND = "$room:";
 
         private static readonly string[] _defaultHighScoreContents = new string[23]
@@ -70,26 +70,34 @@ namespace DynamiteDexter
 
         public static async void LoadFromFileAsync(GameDataFiles gameDataFile)
         {
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFolder storageFolder =
+                gameDataFile == GameDataFiles.HighScore ?
+                Windows.Storage.ApplicationData.Current.LocalFolder :
+                Windows.ApplicationModel.Package.Current.InstalledLocation;
 
             string filename;
 
             switch (gameDataFile)
             {
-                case GameDataFiles.Map: filename = FILE_NAME_MAP;
+                case GameDataFiles.Map:
+                    filename = FILE_NAME_MAP;
                     break;
-                case GameDataFiles.BossLocation: filename = FILE_NAME_BOSS_LOCATION;
+                case GameDataFiles.BossLocation:
+                    filename = FILE_NAME_BOSS_LOCATION;
                     break;
-                case GameDataFiles.DenizenLocations: filename = FILE_NAME_DENIZEN_LOCATION;
+                case GameDataFiles.DenizenLocations:
+                    filename = FILE_NAME_DENIZEN_LOCATION;
                     break;
-                case GameDataFiles.EntryPoints: filename = FILE_NAME_ENTRY_POINTS;
+                case GameDataFiles.EntryPoints:
+                    filename = FILE_NAME_ENTRY_POINTS;
                     break;
-                case GameDataFiles.HighScore: filename = FILE_NAME_HIGH_SCORE;
+                case GameDataFiles.HighScore:
+                    filename = FILE_NAME_HIGH_SCORE;
                     break;
                 default: throw new Exception("Error - unable to recognize game data file type.");
             }
 
-            if (!File.Exists(Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\" + filename))
+            if (!File.Exists(storageFolder.Path + "\\" + filename))
             {
                 if (gameDataFile == GameDataFiles.HighScore)
                 {
